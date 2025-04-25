@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Commentaire {
+  id           String      @id
+  message      String
+  dateCreation DateTime    @default(now())
+  ticketId     String
+  auteurId     String
+  Utilisateur  Utilisateur @relation(fields: [auteurId], references: [id])
+  Ticket       Ticket      @relation(fields: [ticketId], references: [id])
+}
+
+model Ticket {
+  id            String        @id
+  titre         String
+  description   String
+  statut        Statut        @default(NOUVEAU)
+  priorite      Priorite      @default(MOYENNE)
+  dateCreation  DateTime      @default(now())
+  dateMiseAJour DateTime
+  utilisateurId String
+  Commentaire   Commentaire[]
+  Utilisateur   Utilisateur   @relation(fields: [utilisateurId], references: [id])
+}
+
+model Utilisateur {
+  id             String        @id
+  nom            String
+  email          String        @unique
+  motDePasseHash String
+  role           Role          @default(USER)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime
+  Commentaire    Commentaire[]
+  Ticket         Ticket[]
+}
+
+enum Priorite {
+  BASSE
+  MOYENNE
+  HAUTE
+}
+
+enum Role {
+  USER
+  AGENT
+}
+
+enum Statut {
+  NOUVEAU
+  EN_COURS
+  RESOLU
+  FERME
+}
