@@ -21,8 +21,12 @@ export default function LayoutDefault({
   return (
     <div className={"flex flex-col m-auto min-h-screen"}>
       <header className="flex justify-between p-4 border-b-2 border-gray-200">
-        <div className="flex items-center ">
-          <Button onClick={toggleSidebar} className="bg-blue-500">
+        <div className="flex items-center">
+          <Button
+            onClick={toggleSidebar}
+            className="bg-blue-500 hover:bg-blue-700"
+            aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -98,8 +102,8 @@ function Sidebar({
         id="sidebar"
         className={`
           p-5 flex flex-col shrink-0 border-r-2 border-r-gray-200 max-w-[200px] 
-          fixed lg:static z-20 bg-white h-full transition-transform duration-300 ease-in-out
-          ${isOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0
+          fixed lg:relative z-20 bg-white h-full transition-all duration-300 ease-in-out
+          ${isOpen ? "translate-x-0" : "-translate-x-full lg:hidden"} 
         `}
       >
         <div className="flex justify-end lg:hidden">
