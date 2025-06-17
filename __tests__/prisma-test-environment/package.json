@@ -1,0 +1,7 @@
+{
+  "name": "jest-environment-prisma",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Jest environment with Prisma initialized",
+  "main": "prisma-test-environment.js"
+}
