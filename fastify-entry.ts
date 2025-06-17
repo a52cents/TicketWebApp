@@ -16,7 +16,7 @@ const hmrPort = process.env.HMR_PORT
   ? parseInt(process.env.HMR_PORT, 10)
   : 24678;
 
-async function startServer() {
+export async function createServer() {
   const app = Fastify({
     logger: false, // Désactiver la journalisation pour moins de bruit dans la console
   });
@@ -121,13 +121,16 @@ async function startServer() {
   return app;
 }
 
-const app = await startServer();
+// Uniquement exécuter le serveur si ce fichier est appelé directement (pas importé)
+if (import.meta.url === `file://${__filename}`) {
+  const app = await createServer();
 
-app.listen(
-  {
-    port: port,
-  },
-  () => {
-    console.log(`Server listening on http://localhost:${port}`);
-  }
-);
+  app.listen(
+    {
+      port: port,
+    },
+    () => {
+      console.log(`Server listening on http://localhost:${port}`);
+    }
+  );
+}
