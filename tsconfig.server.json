@@ -1,11 +1,10 @@
 {
-  "extends": "./tsconfig.json",  "compilerOptions": {
-    "module": "NodeNext",
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "esnext",
     "outDir": "dist",
-    "target": "esnext", 
-    "moduleResolution": "NodeNext",
+    "target": "esnext",
     "isolatedModules": false,
-    "allowJs": true,
     "noEmit": false
   },
   "include": ["fastify-entry.ts", "server/**/*", "api/**/*", "api-server.ts"],
