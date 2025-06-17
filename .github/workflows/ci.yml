@@ -79,11 +79,7 @@ jobs:
           vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
           vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
           echo "Déploiement en cours..."
-          # Vous pouvez remplacer cette étape par une vraie commande de déploiement
-          # Exemples:
-          # - Deploy to Vercel: vercel --prod
-          # - Deploy to Netlify: netlify deploy --prod
-          # - Deploy to a server via SSH
+          - Deploy to Vercel: vercel --prod
           echo "Application déployée avec succès!"
         env:
           # Définissez vos variables d'environnement nécessaires pour le déploiement
