@@ -7,7 +7,25 @@ export default async function handler(
   req: IncomingMessage,
   res: ServerResponse
 ): Promise<void> {
-  const app = await createServer();
-  await app.ready();
-  app.server.emit("request", req, res);
+  try {
+    console.log("API handler invoked");
+    const app = await createServer();
+    console.log("Fastify server created");
+    await app.ready();
+    console.log("Fastify server ready");
+    app.server.emit("request", req, res);
+    console.log("Request handled");
+  } catch (error) {
+    console.error("Error in serverless function:", error);
+    
+    // Envoyer une réponse d'erreur si elle n'a pas encore été envoyée
+    if (!res.headersSent) {
+      res.statusCode = 500;
+      res.setHeader("Content-Type", "application/json");
+      res.end(JSON.stringify({ 
+        error: "Server error", 
+        message: error instanceof Error ? error.message : "Unknown error" 
+      }));
+    }
+  }
 }

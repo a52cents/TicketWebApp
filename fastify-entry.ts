@@ -1,9 +1,9 @@
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { createTodoHandler } from "./server/create-todo-handler";
-import { vikeHandler } from "./server/vike-handler";
-import { createTicketHandler } from "./server/ticket-form-handler";
+import { createTodoHandler } from "./server/create-todo-handler.js";
+import { vikeHandler } from "./server/vike-handler.js";
+import { createTicketHandler } from "./server/ticket-form-handler.js";
 import Fastify from "fastify";
 import { createHandler } from "@universal-middleware/fastify";
 import fastifyRawBody from "fastify-raw-body";
