@@ -1,10 +1,15 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
+  "buildCommand": "npx prisma generate && npm run build",
   "devCommand": "npm run dev",
   "outputDirectory": "dist",
   "framework": "vite",
   "env": {
     "NODE_ENV": "production"
+  },
+  "build": {
+    "env": {
+      "GENERATE_PRISMA": "true"
+    }
   }
 }
