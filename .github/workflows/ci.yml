@@ -50,7 +50,7 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     # N'exécutez le déploiement que sur la branche main (pas sur les pull requests)
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout code
