@@ -24,6 +24,10 @@ pnpm create vike@latest --react --tailwindcss --shadcn-ui --fastify --prisma
   * [Configuration](#configuration)
   * [Add Components to Your Project](#add-components-to-your-project)
 
+* [Tests et CI/CD](#tests-et-cicd)
+  * [Exécuter les Tests](#exécuter-les-tests)
+  * [Pipeline CI/CD](#pipeline-cicd)
+
 ## *Prisma*
 
 ### Setup
@@ -94,4 +98,61 @@ use the `<Button />` component in your project:
 `import { Button } from "@/components/ui/button";`
 
 more [shadcn/ui components](https://ui.shadcn.com/docs/components/accordion)
+
+## Tests et CI/CD
+
+L'application inclut des tests unitaires et d'intégration, ainsi qu'un pipeline CI/CD avec GitHub Actions.
+
+### Exécuter les Tests
+
+Ce projet utilise Jest pour les tests unitaires et d'intégration. Pour exécuter les tests :
+
+```sh
+# Exécuter tous les tests
+npm test
+
+# Exécuter les tests en mode watch (pour le développement)
+npm run test:watch
+
+# Exécuter les tests avec rapports de couverture
+npm run test:coverage
+
+# Exécuter les tests en mode silencieux (utilisé dans CI/CD)
+npm run test:quiet
+```
+
+### Pipeline CI/CD
+
+Le projet est configuré avec GitHub Actions pour l'intégration continue et le déploiement continu. Le workflow est défini dans `.github/workflows/ci.yml` et comprend :
+
+1. **Tests et Build** : Cette étape :
+   - Installe les dépendances
+   - Génère le client Prisma
+   - Exécute les tests unitaires et d'intégration
+   - Construit l'application
+   - Archive les artefacts de build pour l'étape de déploiement
+
+2. **Déploiement** : Cette étape :
+   - Ne s'exécute que pour les pushes sur la branche main (pas pour les pull requests)
+   - Récupère les artefacts de build
+   - Déploie l'application en production
+
+### Configuration du CI/CD
+
+Pour configurer complètement le déploiement, vous devez :
+
+1. Remplacer l'étape de déploiement par votre méthode de déploiement préférée :
+   - Vercel : `vercel --prod`
+   - Netlify : `netlify deploy --prod`
+   - Déploiement sur serveur via SSH
+
+2. Ajouter les secrets nécessaires dans les paramètres de votre dépôt GitHub :
+   - Aller dans `Settings > Secrets and variables > Actions`
+   - Ajouter les secrets comme `VERCEL_TOKEN`, `NETLIFY_AUTH_TOKEN`, etc.
+
+### Status Badge
+
+[![CI/CD Pipeline](https://github.com/{votre-username}/TicketApp/actions/workflows/ci.yml/badge.svg)](https://github.com/{votre-username}/TicketApp/actions/workflows/ci.yml)
+
+Remplacez `{votre-username}` par votre nom d'utilisateur GitHub pour voir le status badge.
 

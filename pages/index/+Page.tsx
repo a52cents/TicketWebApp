@@ -4,7 +4,10 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/components/Link";
 
 export default function Page() {
   return (
@@ -31,6 +34,11 @@ export default function Page() {
               support.
             </p>
           </CardContent>
+          <CardFooter>
+            <Link href="/tickets/new" className="contents">
+              <Button size="sm">Créer un ticket</Button>
+            </Link>
+          </CardFooter>
         </Card>
 
         <Card>
@@ -46,6 +54,13 @@ export default function Page() {
               clairement définis : Nouveau, En cours, Résolu ou Fermé.
             </p>
           </CardContent>
+          <CardFooter>
+            <Link href="/tickets" className="contents">
+              <Button size="sm" variant="secondary">
+                Voir tous les tickets
+              </Button>
+            </Link>
+          </CardFooter>
         </Card>
 
         <Card>
@@ -119,19 +134,41 @@ export default function Page() {
             <p className="mb-4">
               Prêt à améliorer la gestion de vos demandes de support ?
             </p>
-            <div className="flex gap-4">
-              <a
-                href="/auth"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              >
-                S'inscrire / Se connecter
-              </a>
-              <a
-                href="/tickets/new"
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-              >
-                Créer un ticket
-              </a>
+            <div className="flex flex-col gap-4">
+              <div className="flex gap-4">
+                <Link href="/auth" className="contents">
+                  <Button variant="default">S'inscrire / Se connecter</Button>
+                </Link>
+                <Link href="/tickets/new" className="contents">
+                  <Button variant="secondary">Créer un ticket</Button>
+                </Link>
+              </div>
+              <Link href="/tickets" className="contents">
+                <Button variant="outline" className="mt-2 w-full">
+                  <span className="flex items-center justify-center gap-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-list"
+                    >
+                      <line x1="8" x2="21" y1="6" y2="6" />
+                      <line x1="8" x2="21" y1="12" y2="12" />
+                      <line x1="8" x2="21" y1="18" y2="18" />
+                      <line x1="3" x2="3.01" y1="6" y2="6" />
+                      <line x1="3" x2="3.01" y1="12" y2="12" />
+                      <line x1="3" x2="3.01" y1="18" y2="18" />
+                    </svg>
+                    VOIR TOUS LES TICKETS
+                  </span>
+                </Button>
+              </Link>
             </div>
           </CardContent>
         </Card>

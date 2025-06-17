@@ -1,0 +1,74 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Tests & Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci    - name: Generate Prisma Client
+      run: npx prisma generate
+      
+    - name: Run tests
+      run: npm run test:quiet
+      env:
+        DATABASE_URL: "file:./test.db"
+        NODE_ENV: "test"
+
+    - name: Build
+      run: npm run build
+      
+    - name: Archive build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build
+        path: dist
+
+  deploy:
+    name: Deploy
+    needs: test
+    runs-on: ubuntu-latest
+    # N'exécutez le déploiement que sur la branche main (pas sur les pull requests)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: build
+        path: dist
+        
+    # Cette étape est un exemple - vous devrez l'adapter à votre environnement de déploiement
+    - name: Deploy to production
+      run: |
+        echo "Déploiement en cours..."
+        # Vous pouvez remplacer cette étape par une vraie commande de déploiement
+        # Exemples:
+        # - Deploy to Vercel: vercel --prod
+        # - Deploy to Netlify: netlify deploy --prod
+        # - Deploy to a server via SSH
+        echo "Application déployée avec succès!"
+      env:
+        # Définissez vos variables d'environnement nécessaires pour le déploiement
+        NODE_ENV: production
+        # VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        # NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
