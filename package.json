@@ -1,4 +1,5 @@
-{  "scripts": {
+{
+  "scripts": {
     "dev": "tsx ./fastify-entry.ts",
     "build": "vike build && tsc --project tsconfig.server.json",
     "preview": "cross-env NODE_ENV=production tsx ./fastify-entry.ts",

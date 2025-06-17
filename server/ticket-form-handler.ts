@@ -1,12 +1,8 @@
 // TODO: stop using universal-middleware and directly integrate server middlewares instead and/or use vike-server https://vike.dev/server. (Bati generates boilerplates that use universal-middleware https://github.com/magne4000/universal-middleware to make Bati's internal logic easier. This is temporary and will be removed soon.)
 import type { Get, UniversalHandler } from "@universal-middleware/core";
-import prismaClient from "../lib/prismaClient.js";
 import { v4 as uuidv4 } from "uuid";
 // Import TicketService directly - this has better error handling
 import TicketService from "../lib/ticketService.js";
-
-// Type assertion to use the PrismaClient as expected
-const prisma = prismaClient as any;
 
 export const createTicketHandler: Get<
   [],
@@ -37,14 +33,16 @@ export const createTicketHandler: Get<
           headers: { "Content-Type": "application/json" },
         }
       );
-    }
-
-    // Formatter correctement les données pour le TicketService
+    } // Formatter correctement les données pour le TicketService
     const ticket = {
       id: ticketData.id || uuidv4(),
       titre: ticketData.titre || ticketData.text || "",
       description: ticketData.description || "",
-      priorite: ticketData.priorite || "MOYENNE",
+      priorite: (ticketData.priorite === "BASSE" ||
+      ticketData.priorite === "MOYENNE" ||
+      ticketData.priorite === "HAUTE"
+        ? ticketData.priorite
+        : "MOYENNE") as "BASSE" | "MOYENNE" | "HAUTE",
     };
 
     console.log("Processing ticket with TicketService:", ticket);

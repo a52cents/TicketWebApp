@@ -124,7 +124,7 @@ export async function createServer() {
 // Uniquement exécuter le serveur si ce fichier est appelé directement (pas importé)
 if (import.meta.url === `file://${__filename}`) {
   const app = await createServer();
-  
+
   app.listen(
     {
       port: port,
