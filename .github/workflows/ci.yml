@@ -22,21 +22,17 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: npm ci
-
-      - name: Set up database for testing
+        run: npm ci      - name: Set up database for testing
         run: |
-          touch prisma/dev.db
           npx prisma migrate deploy
         env:
-          DATABASE_URL: "file:./dev.db"
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Generate Prisma Client
         run: npx prisma generate
       - name: Run only unit tests (skip integration tests)
-        run: node --experimental-vm-modules node_modules/jest/bin/jest.js __tests__/unit/
-        env:
-          DATABASE_URL: "file:./test.db"
+        run: node --experimental-vm-modules node_modules/jest/bin/jest.js __tests__/unit/        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           NODE_ENV: "test"
 
       - name: Build
@@ -63,11 +59,23 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build
-          path: dist
+          path: dist      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
 
-      # Cette étape est un exemple - vous devrez l'adapter à votre environnement de déploiement
-      - name: Deploy to production
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+        
+      - name: Deploy to Vercel
         run: |
+          vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+          vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
           echo "Déploiement en cours..."
           # Vous pouvez remplacer cette étape par une vraie commande de déploiement
           # Exemples:
