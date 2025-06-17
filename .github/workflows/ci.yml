@@ -30,7 +30,8 @@ jobs:
       - name: Generate Prisma Client
         run: npx prisma generate
       - name: Run only unit tests (skip integration tests)
-        run: node --experimental-vm-modules node_modules/jest/bin/jest.js __tests__/unit/        env:
+        run: node --experimental-vm-modules node_modules/jest/bin/jest.js __tests__/unit/
+        env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           NODE_ENV: "test"
 
